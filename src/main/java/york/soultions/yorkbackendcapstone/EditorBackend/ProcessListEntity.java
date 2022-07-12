@@ -8,27 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name ="process_entity_list")
+@Table(name ="process_list_entity")
 public class ProcessListEntity {
     @Id
-    @SequenceGenerator(
-            name = "Id_Sequence",
-            sequenceName = "Id_Sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "Id_Sequence"
+            generator = "Id_SequenceT"
     )
-    @Column( insertable = false, updatable = false)
+    @SequenceGenerator(
+            name = "Id_SequenceThree",
+            sequenceName = "sequenceT",
+            allocationSize = 1
+    )
+    @Column(nullable = false, unique = true)
     private Long id;
 
 
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<ProcessEntity> processEntityList = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName ="id" )
+    private List<ProcessEntity> processList = new ArrayList<>();
+
+    private Long processListId;
 
     public ProcessListEntity(ArrayList<ProcessEntity> processEntityList) {
-        this.processEntityList = processEntityList;
+        this.processList = processEntityList;
+        this.processListId = this.id;
     }
     public ProcessListEntity(){
 

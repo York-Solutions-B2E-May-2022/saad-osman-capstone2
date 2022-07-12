@@ -12,14 +12,14 @@ import javax.persistence.*;
 public class MutipleChoiceEmbedd {
 
     @Id
-    @SequenceGenerator(
-            name = "Id_Sequence",
-            sequenceName = "Id_Sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "Id_Sequence"
+            generator = "Id_SequenceTwo"
+    )
+    @SequenceGenerator(
+            name = "Id_SequenceTwo",
+            sequenceName = "sequenceTwo",
+            allocationSize = 1
     )
     private Long id;
     private String one;

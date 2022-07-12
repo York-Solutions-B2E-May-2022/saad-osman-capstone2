@@ -12,20 +12,24 @@ import javax.persistence.*;
 @Data
 public class ProcessEntity {
     @Id
-    @SequenceGenerator(
-            name = "Id_Sequence",
-            sequenceName = "Id_Sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "Id_Sequence"
+            generator = "Id_SequenceF"
     )
-    @Column( insertable = false, updatable = false, name="entity_id")
+    @SequenceGenerator(
+            name = "Id_SequenceFour",
+            sequenceName = "sequenceF",
+            allocationSize = 1
+    )
+    @Column(nullable = false, unique = true)
     private Long id;
 
     private String action;
     private Integer step;
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(referencedColumnName = "id")
+//    private ProcessListEntity listi;
 
     @OneToOne( cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private ResponseEmbedd response;

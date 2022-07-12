@@ -14,16 +14,15 @@ import javax.persistence.*;
 public class ResponseEmbedd {
 
     @Id
-    @SequenceGenerator(
-            name = "Id_Sequence",
-            sequenceName = "Id_Sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "Id_Sequence"
+            generator = "Id_SequenceOne"
     )
-    @JoinColumn(name = "entity_id")
+    @SequenceGenerator(
+            name = "Id_SequenceOne",
+            sequenceName = "sequenceOne",
+            allocationSize = 1
+    )
     private Long id;
     private Boolean text;
     private Boolean multipleChoice;
