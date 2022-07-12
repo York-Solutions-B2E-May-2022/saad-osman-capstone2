@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @AllArgsConstructor
@@ -27,11 +28,58 @@ public class ProcessEntity {
     private String action;
     private Integer step;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private ProcessListEntity j = new ProcessListEntity( new ArrayList<ProcessEntity>());
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public void setStep(Integer step) {
+        this.step = step;
+    }
+
+    public Long getListId() {
+        return ListId;
+    }
+
+    public void setListId(Long listId) {
+        ListId = listId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setResponse(ResponseEmbedd response) {
+        this.response = response;
+    }
+
+    public void setMultipleChoice(MutipleChoiceEmbedd multipleChoice) {
+        this.multipleChoice = multipleChoice;
+    }
+
+    private Long ListId;
+    private String title;
+
 //    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(referencedColumnName = "id")
 //    private ProcessListEntity listi;
 
-    @OneToOne( cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToOne( cascade = {CascadeType.ALL})
     private ResponseEmbedd response;
 
     @OneToOne(cascade = {CascadeType.ALL})

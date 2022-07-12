@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -31,5 +32,9 @@ public class EditorController {
 //        System.out.println(ii.get(0).getResponse().getTrueOrFalse());
 
         editorPublicService.addProcess(j);
+    }
+    @GetMapping("/all")
+    public List<ProcessEntity> fun(){
+       return editorPublicService.sendAll();
     }
 }
