@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
 public class EditorController {
 
-   private EditorPublicService editorPublicService;
+   private final EditorPublicService editorPublicService;
 
    @Autowired
    public EditorController(@NonNull EditorPublicService editorPublicService){
@@ -21,20 +22,47 @@ public class EditorController {
     @PostMapping(
             value= "/here"
     )
-    public void d(@RequestBody ArrayList<ProcessEntity> ii){
-//        return new ProcessEntity(ii.getAction(), ii.getStep(), new ResponseEmbedd(ii.getResponse().getText(), ii.getResponse().getMultipleChoice(), ii.getResponse().getTrueOrFalse(), ii.getResponse().getVal()),new MutipleChoiceEmbedd(ii.getMultipleChoice().getOne(), ii.getMultipleChoice().getTwo(), ii.getMultipleChoice().getThree(), ii.getMultipleChoice().getFour()));
-
-        ProcessListEntity j = new ProcessListEntity(ii);
-//        System.out.println(ii.get(0).getAction());
-//        System.out.println(ii.get(0).getStep());
-//        System.out.println(ii.get(0).getResponse().getVal());
-//        System.out.println(ii.get(0).getResponse().getText());
-//        System.out.println(ii.get(0).getResponse().getTrueOrFalse());
-
+    public void d(@RequestBody ProcessListEntity ii){
+        ProcessListEntity j = new ProcessListEntity((ArrayList<ProcessEntity>) ii.getProcessList(),ii.getTitle(), ii.getFinished());
+        System.out.println(j.getTitle());
         editorPublicService.addProcess(j);
     }
     @GetMapping("/all")
-    public List<ProcessEntity> fun(){
+    public List<ProcessListEntity> fun(){
        return editorPublicService.sendAll();
+    }
+
+    @DeleteMapping("/deleteProcess/{id}")
+    public void deleteProcess(@PathVariable Long id){
+       System.out.println(id);
+        editorPublicService.deleteProcess(id);
+    }
+
+    @PutMapping(
+            value = "/editTitle/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void editTitle(@RequestBody String title, @PathVariable Long id){
+       editorPublicService.editTitleText(title, id);
+    }
+    @DeleteMapping(value = "/deleteAction/{id}")
+    public void deleteAction(@RequestBody ProcessEntity entity, @PathVariable Long id){
+       editorPublicService.deleteBackendAction(entity, id);
+    }
+    @PostMapping(
+            value = "/addAdditonalAction/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void addAdditonalAction(@RequestBody ProcessEntity entity, @PathVariable Long id){
+       editorPublicService.addAdditonalActionBC(entity , id);
+    }
+    @PutMapping(
+            value = "/editStage/{objId}/{id}",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public void editStage(@RequestBody ProcessEntity entity, @PathVariable Long objId, @PathVariable Long id){
+       editorPublicService.editStageAction(entity, objId, id);
     }
 }

@@ -1,6 +1,8 @@
 package york.soultions.yorkbackendcapstone.EditorBackend;
 
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -8,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name ="process_list_entity")
 public class ProcessListEntity {
     @Id
     @GeneratedValue(
@@ -23,21 +24,58 @@ public class ProcessListEntity {
     @Column(nullable = false, unique = true)
     private Long id;
 
+    private String title;
+    private Boolean finished;
 
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName ="id" )
+    @OneToMany( cascade = CascadeType.ALL )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(referencedColumnName = "id")
     private List<ProcessEntity> processList = new ArrayList<>();
 
-    private Long processListId;
-
-    public ProcessListEntity(ArrayList<ProcessEntity> processEntityList) {
-        this.processList = processEntityList;
-        this.processListId = this.id;
+    public ProcessListEntity(ArrayList<ProcessEntity> processList, String title, Boolean finished){
+        this.title = title;
+        this.processList = processList;
+        this.finished = finished;
     }
+
     public ProcessListEntity(){
 
     }
 
 
+    public List<ProcessEntity> getProcessList() {
+        return processList;
+    }
+
+    public void setProcessList(ArrayList<ProcessEntity> processList) {
+        this.processList = processList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
+    }
+
+//    public void setProcessList(List<ProcessEntity> processList) {
+//        this.processList = processList;
+//    }
 }
