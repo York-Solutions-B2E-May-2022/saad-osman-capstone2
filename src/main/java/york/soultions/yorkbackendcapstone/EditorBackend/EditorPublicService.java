@@ -49,7 +49,6 @@ public class EditorPublicService {
             });
         }
     }
-    @Transactional
     public void deleteBackendAction(ProcessEntity entity, Long id){
         Optional<ProcessListEntity> obj = processListRepository.findById(id);
         processEntityRepository.deleteById(entity.getId());
