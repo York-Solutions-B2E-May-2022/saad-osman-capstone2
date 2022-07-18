@@ -17,7 +17,7 @@ public class ProcessListEntity {
             generator = "Id_SequenceT"
     )
     @SequenceGenerator(
-            name = "Id_SequenceThree",
+            name = "Id_SequenceT",
             sequenceName = "sequenceT",
             allocationSize = 1
     )
